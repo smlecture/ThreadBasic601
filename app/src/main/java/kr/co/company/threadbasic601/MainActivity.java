@@ -5,12 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
     WorkerThread wt;
     Thread wr;
 //    Runnable wrun;
     boolean running = true;
+
+    Button btn;
+    ImageView iv;
 
     String TAG = "THREAD";
 
@@ -30,14 +36,20 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            int i = 0;
+/*            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    iv.setImageResource(R.drawable.lena);
+                }
+            });*/
+/*            int i = 0;
             for (i = 0; i < 20 && running; i++) {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                 }
                 Log.v(TAG, "Runnable time=" + i);
-            }
+            }*/
         }
     }
     @Override
@@ -45,6 +57,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.v(TAG, "Now I am in onCreate");
+
+        btn = findViewById(R.id.button);
+        iv = findViewById(R.id.imageView);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            iv.setImageResource(R.drawable.lena);
+                        }catch(Exception e){}
+                    }
+                }).start();
+
+            }
+        });
     }
 
     @Override
