@@ -9,6 +9,7 @@ import android.util.Log;
 public class MainActivity extends AppCompatActivity {
     WorkerThread wt;
     Thread wr;
+//    Runnable wrun;
     boolean running = true;
 
     String TAG = "THREAD";
@@ -22,6 +23,20 @@ public class MainActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                 }
                 Log.v(TAG, "Thread time=" + i);
+            }
+        }
+    }
+    class WorkerRunnable implements Runnable{
+
+        @Override
+        public void run() {
+            int i = 0;
+            for (i = 0; i < 20 && running; i++) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                }
+                Log.v(TAG, "Runnable time=" + i);
             }
         }
     }
@@ -54,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         wr.start();*/
-        new Thread(new Runnable() {
+/*        new Thread(new Runnable() {
             @Override
             public void run() {
                 int i = 0;
@@ -66,7 +81,11 @@ public class MainActivity extends AppCompatActivity {
                     Log.v(TAG, "Runnable time=" + i);
                 }
             }
-        }).start();
+        }).start();*/
+        new Thread(new WorkerRunnable()).start();
+/*        wrun = new WorkerRunnable();
+        wrun.run();*/
+
         Log.v(TAG, "Now I am in onStart");
     }
 
